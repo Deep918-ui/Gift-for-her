@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 Songs For You</title>
+
+<style>
+:root{
+  --bg-main:#fff5f8;
+  --bg-grad-1:#ffb3c6;
+  --bg-grad-2:#ffd6e0;
+  --box-bg:rgba(255,255,255,0.85);
+  --box-active:#ff9eb5;
+  --accent:#ff6f91;
+  --dark:#7a0020;
+  --r-xl:34px;
+  --r-lg:24px;
+  --shadow-strong:0 35px 90px rgba(255,120,150,.45);
+  --slow:.9s cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+  min-height:100vh;display:flex; flex-direction: column; justify-content:center;align-items:center;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(circle at top,#fff,#ffe6ee),
+  linear-gradient(135deg,var(--bg-main),#ffe6ee);
+  overflow-x: hidden;
+}
+.wrapper{
+  width: 94%; max-width: 460px; padding: 30px 26px 36px; border-radius: var(--r-xl);
+  background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+  box-shadow: var(--shadow-strong);
+  z-index: 5;
+}
+.title{text-align:center;font-size:26px;font-weight:800;color:var(--dark);margin-bottom:26px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.song-box{
+  position:relative;aspect-ratio:1/1;border-radius:var(--r-lg);
+  background:var(--box-bg);overflow:hidden;cursor:pointer;transition:var(--slow);
+}
+.song-box.active{
+  background:linear-gradient(135deg,var(--box-active),var(--bg-grad-2));
+  box-shadow:var(--shadow-strong);
+}
+.front{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;transition:var(--slow);
+  z-index: 2;
+}
+.song-box.active .front{opacity:0;transform:translateY(-20px);}
+.icon{font-size:30px;}
+.label{font-weight:700;color:var(--dark); text-align: center; font-size: 14px;}
+.gif-wrap{
+  position:absolute;top:0;left:0;width:100%;height:60%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.4);
+  opacity:0;transform:scale(.9);transition:var(--slow);
+  z-index: 1;
+}
+.song-box.active .gif-wrap{opacity:1;transform:scale(1);}
+.gif-wrap img{max-width:90%;max-height:90%;border-radius:16px;}
+.player{
+  position:absolute;inset:0;padding:16px;display:flex;
+  flex-direction:column;justify-content:flex-end;
+  z-index: 3;
+}
+audio{display: none;}
+.progress-container {
+    width: 100%; height: 6px; background: rgba(255,255,255,0.5);
+    border-radius: 10px; margin-top: 10px; overflow: hidden;
+}
+.progress{
+  height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#d63447);
+  transition: width 0.1s linear;
+}
+
+#nextBtn {
+    margin-top: 30px;
+    padding: 14px 40px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#nextBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="title">4 songs for you 🎵</div>
+  <div class="grid">
+
+    <div class="song-box" onclick="toggleBox(this)">
+      <div class="front"><div class="icon">🎧</div><div class="label">Samjhawan</div></div>
+      <div class="gif-wrap"><img src="https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyNzl3ODhtYjB1NTN2ZmYxdWQwZGtqNWJtcjFiNmdyNWRiN28xYXh5ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qFmdpUKAFZ6rMobzzu/giphy.gif"></div>
+      <div class="player">
+        <audio preload="auto">
+          <source src="https://github.com/Deep918-ui/Gift-for-her/raw/057b491cc7c8c42880b432b30b4cb526af50dfad/Samjhawan____Arijit_Singh____Latest_Bollywood_Songs_%23love_%23itsguriji_%23youtubeshorts_%23arijitsingh(144p).mp4" type="audio/mp4">
+        </audio>
+        <div class="progress-container"><div class="progress"></div></div>
+      </div>
+    </div>
+
+    <div class="song-box" onclick="toggleBox(this)">
+      <div class="front"><div class="icon">💗</div><div class="label">Wanna Be Yours</div></div>
+      <div class="gif-wrap"><img src="https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyYnVqbm90OHBsd2IyZ2Vxc2hpOG45YzViNWhna2VpaXJuMHIyM29obyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kQEORUrXRjhp5fBdSa/giphy.gif"></div>
+      <div class="player">
+        <audio preload="auto">
+          <source src="https://raw.githubusercontent.com/Deep918-ui/Gift-for-her/db42dcbbc3108fce0eb7640467e6a4e25a4e8352/Wanna_be_your_%F0%9F%92%97%F0%9F%AB%B7%F0%9F%8F%BB_._._._Lyrics%2C_aesthetic%2C_reels%2C_editing%2C_Spotify%2C_virat_kohli__._._._%23tornado_lyrics_%23love_%23wannabeyours_%23viralvideos_%23viralreels.mp3" type="audio/mpeg">
+        </audio>
+        <div class="progress-container"><div class="progress"></div></div>
+      </div>
+    </div>
+
+    <div class="song-box" onclick="toggleBox(this)">
+      <div class="front"><div class="icon">🌙</div><div class="label">Kudmayi</div></div>
+      <div class="gif-wrap"><img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyaWt2cjJyZnpyMGtod2RxOWFrbHByd2R3NHhvN3V1ZWh1ODAwbG0ybCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ppVwDRqJbwtnNKEC43/giphy.gif"></div>
+      <div class="player">
+        <audio preload="auto">
+          <source src="https://github.com/Deep918-ui/Gift-for-her/raw/057b491cc7c8c42880b432b30b4cb526af50dfad/Kudmayi_x_Zaalima%F0%9F%92%95%F0%9F%98%A9___Instagram_Trending_Reels___%23aesthetic_%23reels_%23instagram(144p).mp4" type="audio/mp4">
+        </audio>
+        <div class="progress-container"><div class="progress"></div></div>
+      </div>
+    </div>
+
+    <div class="song-box" onclick="toggleBox(this)">
+      <div class="front"><div class="icon">✨</div><div class="label">Arz Kiya Hai</div></div>
+      <div class="gif-wrap"><img src="https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWxraDBzMWhuemtsbmE1NmNjaGxyNnIyaHp6ZTZ2cXNqanF0aDN6ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7embDXvowDgEyuvhtF/giphy.gif"></div>
+      <div class="player">
+        <audio preload="auto">
+          <source src="https://github.com/Deep918-ui/Gift-for-her/raw/057b491cc7c8c42880b432b30b4cb526af50dfad/Arz_Kiya_Hai_-_Anuv_Jain_l_Anuv_Jain_x_Coke_Studio_Bharat_l_Anuv_Jain_New_Song_l%23anuvsworld(144p).mp4" type="audio/mp4">
+        </audio>
+        <div class="progress-container"><div class="progress"></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button id="nextBtn" onclick="nextAction()">Next Page ⮕</button>
+
+<script>
+const boxes = document.querySelectorAll('.song-box');
+
+boxes.forEach(box => {
+  const audio = box.querySelector('audio');
+  const progress = box.querySelector('.progress');
+
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+        progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+    }
+  });
+
+  audio.addEventListener('ended', () => {
+    progress.style.width = '0%';
+    box.classList.remove('active');
+  });
+});
+
+function toggleBox(clickedBox) {
+  const audio = clickedBox.querySelector('audio');
+
+  if (clickedBox.classList.contains('active')) {
+    clickedBox.classList.remove('active');
+    audio.pause();
+    return;
+  }
+
+  boxes.forEach(box => {
+    box.classList.remove('active');
+    const a = box.querySelector('audio');
+    a.pause();
+  });
+
+  clickedBox.classList.add('active');
+  audio.play().catch(e => console.log("Buffering..."));
+}
+
+window.onload = () => {
+    // Show button after 10 seconds so she listens to music
+    setTimeout(() => {
+        document.getElementById('nextBtn').classList.add('show');
+    }, 10000);
+};
+
+function nextAction() {
+    window.location.href = "page4.html"; 
+}
+</script>
+</body>
+</html>

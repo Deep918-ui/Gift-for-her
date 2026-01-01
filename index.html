@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You 💗</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:linear-gradient(135deg,#fff5f8,#ffe6ee);
+  overflow: hidden;
+}
+.card{
+  width:92%;
+  max-width:380px;
+  padding:32px 26px;
+  border-radius:32px;
+  background:linear-gradient(135deg,#ffb3c6,#ffd6e0);
+  box-shadow:0 30px 80px rgba(255,120,150,.45);
+  text-align:center;
+  animation:fade 1s ease;
+  z-index: 10;
+}
+h1{
+  font-size:26px;
+  color:#7a0020;
+  margin-bottom:14px;
+}
+p{
+  font-size:14.5px;
+  color:#5c0018;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+button{
+  width:100%;
+  padding:14px 0;
+  border:none;
+  border-radius:30px;
+  background:#ff6f91;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 14px 30px rgba(255,110,140,.55);
+  transition: 0.3s;
+}
+button:active{transform:scale(.95);}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Hey cutiepie 💕</h1>
+  <p>
+    This little surprise is just for you.<br>
+    Take a deep breath and tap below.
+  </p>
+  <button onclick="location.href='page2.html'">
+    Open your gift 🎁
+  </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Love Test</title>
+<style>
+:root {
+  --bg: #fff5f8;
+  --accent: #ff4d6d;
+  --dark: #7a0020;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #fff, #ffe6ee);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Segoe UI', sans-serif; overflow: hidden;
+}
+
+/* 1. Intro Popup */
+#introPopup {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.popup-card {
+  background: white; padding: 40px 30px; border-radius: 25px;
+  text-align: center; width: 85%; max-width: 350px;
+  box-shadow: 0 10px 40px rgba(255, 77, 109, 0.4);
+}
+.start-btn {
+  margin-top: 25px; padding: 12px 35px; background: var(--accent);
+  color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold;
+}
+
+/* 2. Quiz Container */
+.quiz-container {
+  width: 90%; max-width: 450px; background: white;
+  padding: 30px; border-radius: 30px; display: none;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  position: relative;
+}
+.question-box { display: none; animation: slideIn 0.5s forwards; }
+.question-box.active { display: block; }
+
+h2 { color: var(--dark); margin-bottom: 20px; font-size: 20px; text-align: center; }
+
+.options { display: grid; gap: 12px; }
+.option-btn {
+  padding: 15px; border: 2px solid #eee; border-radius: 15px;
+  background: #fafafa; cursor: pointer; transition: 0.3s;
+  font-weight: 500; text-align: left;
+}
+.option-btn:hover { border-color: var(--accent); background: #fff0f3; }
+
+/* 3. Final Result */
+#resultBox { display: none; text-align: center; animation: popUp 0.6s forwards; }
+.percentage { font-size: 60px; font-weight: 900; color: var(--accent); margin: 20px 0; }
+.status { font-size: 22px; font-weight: bold; color: var(--dark); margin-bottom: 10px; }
+
+#nextBtn {
+  margin-top: 30px; padding: 12px 40px; background: var(--dark);
+  color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer;
+  transition: 0.3s;
+}
+#nextBtn:active { transform: scale(0.95); }
+
+@keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div id="introPopup">
+  <div class="popup-card">
+    <h1 style="color: var(--accent);">Love Test ❤️</h1>
+    <p style="margin-top: 10px;">Do you really know everything about me? Let's find out!</p>
+    <button class="start-btn" onclick="startQuiz()">Let's Play!</button>
+  </div>
+</div>
+
+<div class="quiz-container" id="quizBox">
+  
+  <div class="question-box active" id="q1">
+    <h2>1. What is my all-time favorite song?</h2>
+    <div class="options">
+      <button class="option-btn" onclick="nextQ(1, false)">Zaalima</button>
+      <button class="option-btn" onclick="nextQ(1, false)">Samjhawan</button>
+      <button class="option-btn" onclick="nextQ(1, false)">Attention</button>
+      <button class="option-btn" onclick="nextQ(1, true)">Wanna Be Yours</button>
+    </div>
+  </div>
+
+  <div class="question-box" id="q2">
+    <h2>2. Which one is my favorite food?</h2>
+    <div class="options">
+      <button class="option-btn" onclick="nextQ(2, true)">Biryani</button>
+      <button class="option-btn" onclick="nextQ(2, false)">Pizza</button>
+      <button class="option-btn" onclick="nextQ(2, false)">Burger</button>
+      <button class="option-btn" onclick="nextQ(2, false)">Momos</button>
+    </div>
+  </div>
+
+  <div class="question-box" id="q3">
+    <h2>3. Where would I love to go with you?</h2>
+    <div class="options">
+      <button class="option-btn" onclick="nextQ(3, false)">Paris</button>
+      <button class="option-btn" onclick="nextQ(3, true)">Mountains</button>
+      <button class="option-btn" onclick="nextQ(3, false)">Beach</button>
+      <button class="option-btn" onclick="nextQ(3, false)">Stay at home</button>
+    </div>
+  </div>
+
+  <div class="question-box" id="q4">
+    <h2>4. How much do I love you?</h2>
+    <div class="options">
+      <button class="option-btn" onclick="showResult(true)">A lot</button>
+      <button class="option-btn" onclick="showResult(true)">Infinity</button>
+      <button class="option-btn" onclick="showResult(true)">More than you</button>
+      <button class="option-btn" onclick="showResult(true)">To the moon and back</button>
+    </div>
+  </div>
+
+  <div id="resultBox">
+    <h2 id="resultTitle">Love Analysis Report</h2>
+    <div class="percentage" id="finalPercent">0%</div>
+    <div class="status" id="loveStatus">Soulmates! ❤️</div>
+    <p id="resultMsg" style="color: #666;"></p>
+    <button id="nextBtn" onclick="location.href='page8.html'">See Final Surprise ⮕</button>
+  </div>
+
+</div>
+
+<script>
+let score = 0;
+
+function startQuiz() {
+  document.getElementById('introPopup').style.display = 'none';
+  document.getElementById('quizBox').style.display = 'block';
+}
+
+function nextQ(current, isCorrect) {
+  if(isCorrect) score++;
+  document.getElementById('q' + current).classList.remove('active');
+  document.getElementById('q' + (current + 1)).classList.add('active');
+}
+
+function showResult(isCorrect) {
+  if(isCorrect) score++; 
+  
+  document.getElementById('q4').classList.remove('active');
+  const resultBox = document.getElementById('resultBox');
+  const finalPercent = document.getElementById('finalPercent');
+  const status = document.getElementById('loveStatus');
+  const msg = document.getElementById('resultMsg');
+  
+  resultBox.style.display = 'block';
+
+  let percentage = (score / 4) * 100;
+  
+  if(percentage >= 75) {
+    finalPercent.innerText = "100%";
+    status.innerText = "TRUE LOVE FOUND! ❤️";
+    msg.innerText = "You know me better than anyone. You are my world!";
+  } else if(percentage >= 50) {
+    finalPercent.innerText = "75%";
+    status.innerText = "ALMOST PERFECT! 🥰";
+    msg.innerText = "You know me well, but there's more to discover in 2026!";
+  } else {
+    finalPercent.innerText = "∞%"; 
+    status.innerText = "INFINITE LOVE! 😘";
+    msg.innerText = "Answers don't matter, our heart connection is 100%!";
+  }
+}
+</script>
+
+</body>
+</html>

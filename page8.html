@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year 2026</title>
+<style>
+:root {
+  --bg-grad-1: #ffb3c6;
+  --bg-grad-2: #ffd6e0;
+  --accent: #ff4d6d;
+  --dark: #7a0020;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top,#fff,#ffe6ee), linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: 'Segoe UI', sans-serif; overflow: hidden;
+  color: var(--dark);
+}
+
+.container {
+  width: 90%; max-width: 500px; text-align: center;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  padding: 40px 25px; border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 20px 50px rgba(255, 77, 109, 0.1);
+  z-index: 10;
+}
+
+#startBtn {
+  padding: 18px 45px; font-size: 18px; font-weight: bold;
+  background: var(--accent); color: white; border: none;
+  border-radius: 50px; cursor: pointer; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.3);
+  transition: 0.3s;
+}
+#startBtn:active { transform: scale(0.95); }
+
+/* Typing Text Styling */
+#messageContainer {
+  font-size: 19px; line-height: 1.8; color: var(--dark);
+  font-weight: 500; text-align: center; min-height: 150px;
+}
+
+/* Name Stamp Styling */
+.stamp {
+  opacity: 0; transform: scale(3);
+  margin-top: 35px; border: 3px solid var(--accent);
+  display: inline-block; padding: 10px 25px; border-radius: 5px;
+  color: var(--accent); font-weight: 900; letter-spacing: 4px;
+  font-family: 'Courier New', monospace; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.stamp.visible { opacity: 1; transform: scale(1) rotate(-8deg); }
+
+/* Floating Hearts Background */
+.heart {
+  position: absolute; color: var(--accent);
+  opacity: 0.3; animation: float 6s infinite linear;
+  z-index: 1; pointer-events: none;
+}
+@keyframes float {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+
+audio { display: none; }
+</style>
+</head>
+<body>
+
+<div id="hearts-container"></div>
+
+<div class="container">
+  <button id="startBtn" onclick="beginFinalScene()">Open My Heart 🎁</button>
+  
+  <div id="messageContainer">
+    <p id="messageText"></p>
+  </div>
+  
+  <div class="stamp" id="myStamp">WITH LOVE, DEEP</div>
+</div>
+
+<audio id="perfectSong">
+  <source src="https://github.com/Deep918-ui/Gift-for-her/raw/e9de6a57e2527ce88fe04e02a35f1abc00e1f149/Perfect_-_Ed_Sheeran__30_sec_Lyrics_video_(144p).mp4" type="audio/mp4">
+</audio>
+
+<script>
+const text = "As we step into 2026, I want you to know that you are the most beautiful part of my life. Walking through all the memories of our past pages made me realize how lucky I am to have you. Just like this song says, 'I'm dancing in the dark, with you between my arms,' I want to hold you forever. May this new year bring us closer, fill our lives with endless smiles, and keep our love as 'Perfect' as it is today. Happy New Year, my life, my everything!";
+
+let index = 0;
+const speed = 60; // Normal typing speed
+
+function beginFinalScene() {
+    document.getElementById('perfectSong').play();
+    document.getElementById('startBtn').style.display = 'none';
+    createHearts();
+    typeWriter();
+}
+
+function typeWriter() {
+    if (index < text.length) {
+        document.getElementById("messageText").innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, speed);
+    } else {
+        setTimeout(() => {
+            document.getElementById('myStamp').classList.add('visible');
+        }, 800);
+    }
+}
+
+// Background Decoration
+function createHearts() {
+    const container = document.getElementById('hearts-container');
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+        heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }, 400);
+}
+</script>
+</body>
+</html>

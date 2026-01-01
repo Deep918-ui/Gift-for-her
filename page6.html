@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Memories</title>
+<style>
+:root {
+  --bg-grad-1: #ffb3c6;
+  --bg-grad-2: #ffd6e0;
+  --accent: #ff4d6d;
+  --dark: #7a0020;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top,#fff,#ffe6ee), linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: 'Segoe UI', sans-serif; overflow: hidden;
+}
+
+/* Shutter/Flash */
+#shutter {
+  position: fixed; inset: 0; background: #fff; z-index: 200;
+  opacity: 0; pointer-events: none;
+}
+.flash-active { animation: flashAnim 0.3s ease-out; }
+@keyframes flashAnim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Camera Orb Trigger */
+.orb-wrapper { text-align: center; z-index: 10; transition: 0.8s ease; }
+.crystal-orb {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
+  border: 2px solid #fff; box-shadow: 0 0 30px rgba(255, 77, 109, 0.3);
+  cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center;
+  animation: floatOrb 4s infinite ease-in-out;
+}
+.crystal-orb::after { content: '📸'; font-size: 40px; }
+@keyframes floatOrb { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+/* Polaroid Stack */
+.stack-container { position: relative; width: 320px; height: 420px; display: none; }
+
+.polaroid {
+  width: 300px; background: #fff; padding: 12px 12px 55px;
+  position: absolute; left: 10px; border-radius: 2px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+  transform: translateY(100vh) rotate(var(--r));
+  opacity: 0; transition: 1.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.polaroid img { 
+  width: 100%; height: 280px; object-fit: cover; 
+  filter: grayscale(100%) brightness(0.4); transition: 3s ease-in-out;
+}
+.polaroid.active { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+.polaroid.active img { filter: grayscale(0%) brightness(1); }
+
+/* Blast Animation */
+@keyframes photoBlast {
+    0% { transform: scale(1) translateY(0) rotate(var(--r)); opacity: 1; }
+    20% { transform: scale(1.1) rotate(calc(var(--r) * 2)); }
+    100% { transform: scale(0.2) translateY(-120vh) rotate(180deg); opacity: 0; }
+}
+.blast-away { animation: photoBlast 1.2s forwards cubic-bezier(0.5, -0.5, 0.1, 1); }
+
+/* Button Styling */
+#nextBtn {
+  position: fixed; bottom: 40px; padding: 15px 45px;
+  background: var(--dark); color: #fff; border: none;
+  border-radius: 50px; font-weight: bold; cursor: pointer;
+  opacity: 0; transform: translateY(20px); transition: 1s; z-index: 150;
+  box-shadow: 0 10px 25px rgba(122,0,32,0.3);
+}
+#nextBtn.show { opacity: 1; transform: translateY(0); }
+
+audio { display: none; }
+</style>
+</head>
+<body>
+
+<div id="shutter"></div>
+
+<div class="orb-wrapper" id="orbBox" onclick="initiateMagic()">
+  <div class="crystal-orb"></div>
+  <p style="margin-top: 15px; color: var(--dark); font-weight: bold; letter-spacing: 2px;">CLICK TO CAPTURE</p>
+</div>
+
+<div class="stack-container" id="stack">
+  <div class="polaroid" style="--r:-4deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/8bb4916e221db9019b7f684cc1b2ca55453352c1/file_0000000033d87209aa2364a4632acc9c.png"></div>
+  <div class="polaroid" style="--r:5deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/8bb4916e221db9019b7f684cc1b2ca55453352c1/file_0000000091287206a3a185863edbb84c.png"></div>
+  <div class="polaroid" style="--r:-3deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/8bb4916e221db9019b7f684cc1b2ca55453352c1/images%20(1).jpeg"></div>
+  <div class="polaroid" style="--r:6deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/25d62ec6bd0ae9d22fad13fb2942db77a16f1c90/file_0000000066e4720996501f793722a1e6.png"></div>
+  <div class="polaroid" style="--r:-5deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/25d62ec6bd0ae9d22fad13fb2942db77a16f1c90/file_0000000031ec72099ab7ef516b113dad.png"></div>
+  <div class="polaroid" style="--r:3deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/f029a99d39d7f11a91c261dc93c09a13c343ce2f/IMG_20260101_132035_416.jpg"></div>
+  <div class="polaroid" style="--r:-2deg"><img src="https://github.com/Deep918-ui/Gift-for-her/raw/772665a6ca1aa8c8b2f0bfaff6dc39cfb47ad497/IMG_20260101_132038_330.jpg"></div>
+</div>
+
+<button id="nextBtn" onclick="handleProceed()">Proceed to Final Surprise ⮕</button>
+
+<audio id="bgMusic" loop>
+  <source src="https://github.com/Deep918-ui/Gift-for-her/raw/2328f8ac85271df35d5b46fcf58437d09d37a8a5/Good_for_you_X_One_of_the_girls___Lyrics___Status_%23oneofthegirls_%23goodforyou_%23theweeknd_%23shorts(144p).mp4" type="audio/mp4">
+</audio>
+
+<script>
+const cards = document.querySelectorAll('.polaroid');
+const shutter = document.getElementById('shutter');
+
+function initiateMagic() {
+  document.getElementById('bgMusic').play();
+  document.getElementById('orbBox').style.display = 'none';
+  document.getElementById('stack').style.display = 'block';
+
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      shutter.classList.add('flash-active');
+      setTimeout(() => shutter.classList.remove('flash-active'), 300);
+      
+      card.classList.add('active');
+      if(i === cards.length - 1) {
+        setTimeout(() => document.getElementById('nextBtn').classList.add('show'), 2500);
+      }
+    }, i * 2800);
+  });
+}
+
+function handleProceed() {
+  const reversedCards = Array.from(cards).reverse();
+  reversedCards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add('blast-away');
+    }, i * 150);
+  });
+
+  // Correct Redirect to Page7.html
+  setTimeout(() => {
+    window.location.href = 'Page7.html';
+  }, 2000);
+}
+</script>
+</body>
+</html>
+eout(() => {
+    window.location.href = 'page7.html';
+  }, 2000);
+}
+</script>
+</body>
+</html>
